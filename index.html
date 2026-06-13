@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A playful photo-filled girlfriend proposal page.">
+  <title>Will You Be My Girlfriend?</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #231923;
+      --muted: #7a6070;
+      --rose: #ff4f7b;
+      --rose-dark: #d93663;
+      --sun: #ffd166;
+      --paper: rgba(255, 255, 255, 0.84);
+      --shadow: 0 24px 70px rgba(80, 30, 55, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #fff2f7;
+    }
+
+    .photo-bg,
+    .photo-overlay,
+    .hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .photo-bg {
+      z-index: -3;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(150px, 1fr));
+      grid-auto-rows: 32vh;
+      gap: 10px;
+      padding: 10px;
+      transform: scale(1.06);
+      animation: driftPhotos 34s ease-in-out infinite alternate;
+    }
+
+    .photo-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 14px;
+      filter: saturate(1.08) brightness(0.86);
+      box-shadow: 0 14px 38px rgba(35, 25, 35, 0.2);
+    }
+
+    .photo-overlay {
+      z-index: -2;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255, 209, 102, 0.42), transparent 22rem),
+        radial-gradient(circle at 82% 12%, rgba(130, 199, 255, 0.4), transparent 21rem),
+        linear-gradient(135deg, rgba(255, 242, 247, 0.58), rgba(234, 248, 255, 0.52));
+      backdrop-filter: blur(2px);
+    }
+
+    @keyframes driftPhotos {
+      from {
+        transform: translate3d(-1.5%, -1%, 0) scale(1.06);
+      }
+      to {
+        transform: translate3d(1.5%, 1%, 0) scale(1.1);
+      }
+    }
+
+    .heart {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      transform: rotate(45deg);
+      background: rgba(255, 79, 123, 0.24);
+      animation: floatUp linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: inherit;
+    }
+
+    .heart::before {
+      left: -11px;
+    }
+
+    .heart::after {
+      top: -11px;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(110vh) rotate(45deg) scale(0.8);
+        opacity: 0;
+      }
+      12% {
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-20vh) rotate(45deg) scale(1.25);
+        opacity: 0;
+      }
+    }
+
+    main {
+      position: relative;
+      width: min(92vw, 680px);
+      min-height: min(82vh, 560px);
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 22px;
+      padding: clamp(24px, 5vw, 44px);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 28px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      text-align: center;
+      backdrop-filter: blur(18px);
+    }
+
+    .music-toggle {
+      position: fixed;
+      right: 18px;
+      top: 18px;
+      z-index: 4;
+      min-width: 48px;
+      min-height: 48px;
+      display: grid;
+      place-items: center;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      color: #7c2542;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 12px 26px rgba(70, 45, 60, 0.16);
+      backdrop-filter: blur(14px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 0 14px;
+      border-radius: 999px;
+      color: #7c2542;
+      background: rgba(255, 79, 123, 0.12);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      max-width: 12ch;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.35rem, 7.4vw, 4.9rem);
+      line-height: 0.9;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    p {
+      max-width: 42rem;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2.5vw, 1.28rem);
+      line-height: 1.6;
+    }
+
+    .buttons {
+      position: relative;
+      width: min(100%, 470px);
+      min-height: 118px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    button {
+      min-width: 142px;
+      min-height: 54px;
+      border: 0;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 1.02rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      touch-action: manipulation;
+    }
+
+    button:focus-visible {
+      outline: 4px solid rgba(130, 199, 255, 0.62);
+      outline-offset: 4px;
+    }
+
+    #yesButton {
+      color: white;
+      background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+      box-shadow: 0 14px 28px rgba(217, 54, 99, 0.28);
+    }
+
+    #yesButton:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 18px 36px rgba(217, 54, 99, 0.34);
+    }
+
+    #noButton {
+      position: absolute;
+      left: calc(50% + 84px);
+      top: 32px;
+      color: #5b3143;
+      background: white;
+      box-shadow: 0 12px 24px rgba(70, 45, 60, 0.14);
+    }
+
+    #noButton.running {
+      transition: left 220ms cubic-bezier(.2,.9,.2,1), top 220ms cubic-bezier(.2,.9,.2,1), transform 180ms ease;
+    }
+
+    .message {
+      min-height: 34px;
+      color: #7c2542;
+      font-weight: 800;
+    }
+
+    .celebration {
+      display: none;
+      position: fixed;
+      inset: 0;
+      place-items: center;
+      padding: 24px;
+      background: rgba(35, 25, 35, 0.34);
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+
+    .celebration.show {
+      display: grid;
+    }
+
+    .celebration-box {
+      width: min(92vw, 520px);
+      padding: clamp(28px, 8vw, 52px);
+      border-radius: 24px;
+      background: #fffdf8;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .celebration-box h2 {
+      margin: 0 0 12px;
+      color: var(--rose-dark);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.6rem, 8vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    @media (max-width: 540px) {
+      .photo-bg {
+        grid-template-columns: repeat(3, minmax(120px, 1fr));
+        grid-auto-rows: 24vh;
+      }
+
+      main {
+        min-height: 86vh;
+        border-radius: 22px;
+      }
+
+      .buttons {
+        min-height: 180px;
+      }
+
+      #yesButton {
+        position: absolute;
+        left: 50%;
+        top: 18px;
+        transform: translateX(-50%);
+      }
+
+      #yesButton:hover {
+        transform: translateX(-50%) translateY(-3px) scale(1.04);
+      }
+
+      #noButton {
+        left: 50%;
+        top: 104px;
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="photo-bg" id="photoBg" aria-hidden="true"></div>
+  <div class="photo-overlay" aria-hidden="true"></div>
+  <div class="hearts" aria-hidden="true"></div>
+
+  <audio id="musicPlayer" src="music.mp3" preload="auto" autoplay loop playsinline>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+  <button class="music-toggle" id="musicToggle" type="button" aria-label="Play music" title="Play music">
+    Play music
+  </button>
+
+  <main>
+    <div class="badge">A very important question</div>
+    <h1>Shalene, will you be my pookie wookie bear 🥰(gf)?</h1>
+    <p>
+      I didn't write you a 1000 words letter cause I'm not a dinosaur Grandma ShaSha.
+    </p>
+
+    <div class="buttons" id="buttonArea">
+      <button id="yesButton" type="button">Yes</button>
+      <button id="noButton" type="button" aria-label="No, but it runs away">No</button>
+    </div>
+
+    <div class="message" id="message" aria-live="polite"></div>
+  </main>
+
+  <section class="celebration" id="celebration" aria-hidden="true">
+    <div class="celebration-box">
+      <h2>Yay!</h2>
+      <p>No takebacks!! 😈<br>We are now a couple 🥰😍❤️</p>
+    </div>
+  </section>
+
+  <script>
+    const hearts = document.querySelector(".hearts");
+    const buttonArea = document.getElementById("buttonArea");
+    const noButton = document.getElementById("noButton");
+    const yesButton = document.getElementById("yesButton");
+    const message = document.getElementById("message");
+    const celebration = document.getElementById("celebration");
+    const photoBg = document.getElementById("photoBg");
+    const musicToggle = document.getElementById("musicToggle");
+    const musicPlayer = document.getElementById("musicPlayer");
+
+    const photos = [
+      "assets/photo-01.jpg",
+      "assets/photo-02.jpg",
+      "assets/photo-03.jpg",
+      "assets/photo-04.jpg",
+      "assets/photo-05.jpg",
+      "assets/photo-06.jpg",
+      "assets/photo-07.jpg",
+      "assets/photo-08.jpg",
+      "assets/photo-09.jpg",
+      "assets/photo-10.jpg",
+      "assets/photo-11.jpg",
+      "assets/photo-12.jpg",
+      "assets/photo-13.jpg",
+      "assets/photo-14.jpg",
+      "assets/photo-15.jpg",
+      "assets/photo-16.jpg",
+      "assets/photo-17.jpg",
+      "assets/photo-18.jpg",
+      "assets/photo-19.jpg",
+      "assets/photo-20.jpg"
+    ];
+
+    const teases = [
+      "Are you suuureee. 🥺",
+      "Are you really really REALLY sure!? 😭💔",
+      "JUST PRESS YES 😡",
+      "Nice try 😂",
+      "Haha loser",
+      "Can't get me, fatty",
+      "The Universe wants us to be together!",
+      "Eat more protein bro",
+      "Wrong answer!",
+      "You know you want to click Yes 😌",
+      "Still no? Really? 😭",
+      "I'm running out of excuses 🏃‍♂️",
+      "Are you sure? 🥺",
+      "But I'd bring you flowers 🌹",
+      "And food 🍕",
+      "And hugs 🤗",
+      "Unlimited compliments ✨",
+      "Premium boyfriend package 💎",
+      "No subscription fees 😌",
+      "Try again 😏",
+      "That's crazy 🤨",
+      "Be serious 😭",
+      "You're trolling 😂",
+      "I refuse to accept that answer 🤭",
+      "The council disagrees 👨‍⚖️",
+      "Invalid response 🚫",
+      "Please select 'Yes' to continue ❤️"
+    ];
+    let noPresses = 0;
+    let teaseIndex = 0;
+
+    for (let i = 0; i < 26; i += 1) {
+      const heart = document.createElement("span");
+      heart.className = "heart";
+      heart.style.left = `${Math.random() * 100}%`;
+      heart.style.animationDuration = `${8 + Math.random() * 8}s`;
+      heart.style.animationDelay = `${Math.random() * -12}s`;
+      heart.style.opacity = `${0.35 + Math.random() * 0.35}`;
+      hearts.appendChild(heart);
+    }
+
+    photos.forEach((src, index) => {
+      const image = document.createElement("img");
+      image.src = src;
+      image.alt = "";
+      image.loading = index < 10 ? "eager" : "lazy";
+      photoBg.appendChild(image);
+    });
+
+    function showNextTease() {
+      message.textContent = teases[teaseIndex];
+      teaseIndex = (teaseIndex + 1) % teases.length;
+    }
+
+    function moveNoButton(showMessage = true) {
+      const area = buttonArea.getBoundingClientRect();
+      const button = noButton.getBoundingClientRect();
+      const padding = 4;
+      const maxLeft = Math.max(padding, area.width - button.width - padding);
+      const maxTop = Math.max(padding, area.height - button.height - padding);
+      const nextLeft = padding + Math.random() * (maxLeft - padding);
+      const nextTop = padding + Math.random() * (maxTop - padding);
+
+      noButton.classList.add("running");
+      noButton.style.left = `${nextLeft}px`;
+      noButton.style.top = `${nextTop}px`;
+      noButton.style.transform = `rotate(${Math.random() * 16 - 8}deg)`;
+      if (showMessage) {
+        showNextTease();
+      }
+    }
+
+    function handleNo(event) {
+      event.preventDefault();
+      showNextTease();
+      noPresses += 1;
+      if (noPresses >= 3) {
+        moveNoButton(false);
+      }
+    }
+
+    noButton.addEventListener("pointerenter", () => {
+      if (noPresses >= 3) {
+        moveNoButton();
+      }
+    });
+    noButton.addEventListener("pointerdown", handleNo);
+    noButton.addEventListener("focus", () => {
+      if (noPresses >= 3) {
+        moveNoButton();
+      }
+    });
+
+    yesButton.addEventListener("click", () => {
+      celebration.classList.add("show");
+      celebration.setAttribute("aria-hidden", "false");
+      message.textContent = "Best answer ever.";
+    });
+
+    celebration.addEventListener("click", () => {
+      celebration.classList.remove("show");
+      celebration.setAttribute("aria-hidden", "true");
+    });
+
+    function setMusicButton(isPlaying) {
+      musicToggle.setAttribute("aria-label", isPlaying ? "Pause music" : "Play music");
+      musicToggle.title = isPlaying ? "Pause music" : "Play music";
+      musicToggle.textContent = isPlaying ? "Pause music" : "Play music";
+    }
+
+    async function startMusic() {
+      try {
+        musicPlayer.muted = false;
+        musicPlayer.volume = 1;
+        await musicPlayer.load();
+        await musicPlayer.play();
+        setMusicButton(true);
+        return true;
+      } catch (error) {
+        setMusicButton(false);
+        return false;
+      }
+    }
+
+    startMusic();
+
+    musicPlayer.addEventListener("playing", () => setMusicButton(true));
+    musicPlayer.addEventListener("pause", () => setMusicButton(false));
+
+    musicToggle.addEventListener("pointerdown", (event) => {
+      event.stopPropagation();
+    });
+
+    musicToggle.addEventListener("click", async () => {
+      if (musicPlayer.paused) {
+        await startMusic();
+      } else {
+        musicPlayer.pause();
+        setMusicButton(false);
+      }
+    });
+
+    function unlockMusic(event) {
+      if (!musicToggle.contains(event.target)) {
+        startMusic();
+      }
+    }
+
+    document.addEventListener("pointerdown", unlockMusic, { once: true });
+    document.addEventListener("touchstart", unlockMusic, { once: true, passive: true });
+    document.addEventListener("click", unlockMusic, { once: true });
+    document.addEventListener("keydown", startMusic, { once: true });
+  </script>
+</body>
+</html>
